@@ -1,53 +1,75 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SITE } from "@/lib/site";
 
+type ChipProps = {
+  href: string;
+  label: string;
+  logo: string;
+  external?: boolean;
+};
+
+function CompanyChip({ href, label, logo, external = true }: ChipProps) {
+  const className =
+    "inline-flex items-center gap-1.5 rounded-[4px] border border-black/[0.16] bg-white px-1.5 py-0.5 align-middle text-[15px] font-normal text-zinc-900 shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_1px_2px_-1px_rgba(0,0,0,0.12)] transition hover:bg-zinc-50";
+  const inner = (
+    <>
+      <span className="relative inline-block size-4 overflow-hidden rounded-sm">
+        <Image
+          src={logo}
+          alt=""
+          width={16}
+          height={16}
+          className="h-full w-full object-cover"
+          unoptimized
+        />
+      </span>
+      <span>{label}</span>
+    </>
+  );
+  return external ? (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={className}
+    >
+      {inner}
+    </a>
+  ) : (
+    <Link href={href} className={className}>
+      {inner}
+    </Link>
+  );
+}
+
 export function HeroBio() {
   return (
-    <div className="max-w-xl space-y-4 text-base leading-relaxed text-zinc-600">
-      <p>
-        Studying Interaction Design at{" "}
-        <Link
-          href={SITE.cca}
-          className="font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-zinc-500"
-        >
-          CCA
-        </Link>{" "}
-        in San Francisco. Previously, I have worked with{" "}
-        <Link
-          href={SITE.employers.privado}
-          className="font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-zinc-500"
-        >
-          Privado
-        </Link>
-        ,{" "}
-        <Link
-          href={SITE.employers.fold}
-          className="font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-zinc-500"
-        >
-          Fold
-        </Link>
-        ,{" "}
-        <Link
-          href={SITE.employers.thursday}
-          className="font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-zinc-500"
-        >
-          Thursday
-        </Link>
-        ,{" "}
-        <Link
-          href={SITE.employers.thence}
-          className="font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-zinc-500"
-        >
-          Thence
-        </Link>
-        , shipping products from 0→1.
-      </p>
-      <p>
-        I am currently shaping how remote teams build culture with Thursday™,
-        and crafting simple tools and interface experiments (such as this
-        website) on the side. If you are interested in such areas, please get in
-        touch.
-      </p>
-    </div>
+    <p className="max-w-[34rem] text-[15px] leading-[24px] text-zinc-600">
+      Studying Interaction Design at{" "}
+      <CompanyChip href={SITE.cca} label="CCA" logo={SITE.assets.logos.cca} />{" "}
+      in San Francisco. Previously I have worked with{" "}
+      <CompanyChip
+        href={SITE.employers.privado}
+        label="Privado,"
+        logo={SITE.assets.logos.privado}
+      />{" "}
+      <CompanyChip
+        href={SITE.employers.fold}
+        label="Fold,"
+        logo={SITE.assets.logos.fold}
+      />{" "}
+      <CompanyChip
+        href={SITE.employers.thursday}
+        label="Thursday,"
+        logo={SITE.assets.logos.thursday}
+      />{" "}
+      <CompanyChip
+        href={SITE.employers.thence}
+        label="Thence,"
+        logo={SITE.assets.logos.thence}
+      />{" "}
+      shipping products from 0→1.
+    </p>
   );
 }
