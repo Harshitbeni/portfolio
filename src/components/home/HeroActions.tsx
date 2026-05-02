@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
-const vimeoId = process.env.NEXT_PUBLIC_VIMEO_SHOWREEL_ID;
+/** Default matches https://vimeo.com/848991756 — override with NEXT_PUBLIC_VIMEO_SHOWREEL_ID if needed. */
+const VIMEO_SHOWREEL_DEFAULT = "848991756";
+
+const vimeoId =
+  process.env.NEXT_PUBLIC_VIMEO_SHOWREEL_ID?.trim() || VIMEO_SHOWREEL_DEFAULT;
 
 export function HeroActions() {
   const [open, setOpen] = useState(false);
@@ -69,26 +73,13 @@ export function HeroActions() {
                 </button>
               </div>
               <div className="aspect-video w-full bg-black">
-                {vimeoId ? (
-                  <iframe
-                    title="Showreel video"
-                    src={`https://player.vimeo.com/video/${vimeoId}?autoplay=1`}
-                    className="h-full w-full"
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    allowFullScreen
-                  />
-                ) : (
-                  <div className="flex h-full flex-col items-center justify-center gap-2 px-6 text-center">
-                    <p className="text-sm text-zinc-400">
-                      Vimeo showreel embed. Set{" "}
-                      <code className="rounded bg-white/10 px-1.5 py-0.5 text-zinc-200">
-                        NEXT_PUBLIC_VIMEO_SHOWREEL_ID
-                      </code>{" "}
-                      to your video ID to enable the player (matches the live
-                      site’s Vimeo integration).
-                    </p>
-                  </div>
-                )}
+                <iframe
+                  title="Showreel — Harshit Beniwal on Vimeo"
+                  src={`https://player.vimeo.com/video/${vimeoId}?autoplay=1`}
+                  className="h-full w-full"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                />
               </div>
             </motion.div>
           </motion.div>

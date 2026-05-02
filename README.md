@@ -13,7 +13,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Showreel
 
-The live site uses a Vimeo embed inside the Showreel control. Set `NEXT_PUBLIC_VIMEO_SHOWREEL_ID` in `.env.local` (see `.env.example`) to enable the iframe in the modal.
+The Showreel button opens a modal with Vimeo video [848991756](https://vimeo.com/848991756) by default. To point at another video, set `NEXT_PUBLIC_VIMEO_SHOWREEL_ID` in `.env.local` (see `.env.example`).
 
 ## Scripts
 
