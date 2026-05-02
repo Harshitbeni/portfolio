@@ -10,10 +10,24 @@ const inter = Inter({
   display: "swap",
 });
 
+const interDisplay = Inter({
+  variable: "--font-inter-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: SITE.title,
   description: SITE.description,
   metadataBase: new URL(SITE.url),
+  icons: {
+    icon: [
+      {
+        url: "https://framerusercontent.com/images/nxvOBARz9XmAVrWRlaJO2d7uJo.png",
+      },
+    ],
+  },
   openGraph: {
     title: SITE.title,
     description: SITE.description,
@@ -21,6 +35,19 @@ export const metadata: Metadata = {
     siteName: SITE.title,
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "https://framerusercontent.com/images/P5zjHDdff5ydQZXLSQIUg8BRB8.png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.title,
+    description: SITE.description,
+    images: [
+      "https://framerusercontent.com/images/P5zjHDdff5ydQZXLSQIUg8BRB8.png",
+    ],
   },
 };
 
@@ -32,7 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full scroll-smooth antialiased`}
+      className={`${inter.variable} ${interDisplay.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full bg-[var(--background)] font-sans text-[var(--foreground)]">
         <a

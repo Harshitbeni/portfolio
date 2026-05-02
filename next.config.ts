@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "framerusercontent.com",
         pathname: "/images/**",
       },
+      {
+        protocol: "https",
+        hostname: "lastfm.freetls.fastly.net",
+        pathname: "/i/u/**",
+      },
     ],
   },
 };

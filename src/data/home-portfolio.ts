@@ -1,3 +1,5 @@
+import { SITE } from "@/lib/site";
+
 export type PortfolioMedia =
   | { kind: "video"; src: string }
   | { kind: "image"; src: string; width: number; height: number };
@@ -8,6 +10,8 @@ export type PortfolioItem = {
   title: string;
   description: string;
   media: PortfolioMedia;
+  /** Small logo prefixed inline next to the title, mirroring harshitbeni.com. */
+  titleLogo?: { src: string; alt: string };
 };
 
 export const portfolioItems: PortfolioItem[] = [
@@ -21,6 +25,7 @@ export const portfolioItems: PortfolioItem[] = [
       kind: "video",
       src: "https://framerusercontent.com/assets/H0KHtJxd3hM9TO2AEfyPB7Uh34I.mp4",
     },
+    titleLogo: { src: SITE.assets.logos.privadoSquare, alt: "Privado logo" },
   },
   {
     href: "/work/thursday",
@@ -32,6 +37,7 @@ export const portfolioItems: PortfolioItem[] = [
       kind: "video",
       src: "https://framerusercontent.com/assets/eS18CdlqrjtJqkDNUhIaAsDJE.mp4",
     },
+    titleLogo: { src: SITE.assets.logos.thursday, alt: "Thursday logo" },
   },
   {
     href: "/work/privado-assessments",
@@ -43,17 +49,19 @@ export const portfolioItems: PortfolioItem[] = [
       kind: "video",
       src: "https://framerusercontent.com/assets/SAkCxtLV2FtYfT4PEJ1SN4Rsfs.mp4",
     },
+    titleLogo: { src: SITE.assets.logos.privadoSquare, alt: "Privado logo" },
   },
   {
     href: "/journal",
     tags: ["iOS", "Productivity", "personal", "Coming Soon"],
-    title: "Flora — a New Kind of Journaling",
+    title: "Flora - a New Kind of Journaling",
     description:
       "Flora brings the context of your life to your journal: health, activity, events, and much more. Private by design.",
     media: {
       kind: "video",
       src: "https://framerusercontent.com/assets/1XzPxAPpu0J4hzSkTdXNw8DAjmM.mp4",
     },
+    titleLogo: { src: SITE.assets.logos.flora, alt: "Flora logo" },
   },
   {
     href: "/work/thursday-websites",
@@ -67,6 +75,7 @@ export const portfolioItems: PortfolioItem[] = [
       width: 1280,
       height: 1120,
     },
+    titleLogo: { src: SITE.assets.logos.thursday, alt: "Thursday logo" },
   },
   {
     href: "/work/things-4",
@@ -76,9 +85,10 @@ export const portfolioItems: PortfolioItem[] = [
       "A practice in auto-layout turned into a full-blown rethink of what Things 4 would look like.",
     media: {
       kind: "image",
-      src: "https://framerusercontent.com/images/yCxLlqwWOZ7WgQ1BlHb0OSiheQ.jpeg?width=768&height=768",
-      width: 768,
-      height: 768,
+      src: "https://framerusercontent.com/images/qAtCRuSUETV9wRjXwTqoJoPUdo.png?width=1600&height=1088",
+      width: 1600,
+      height: 1088,
     },
+    titleLogo: { src: SITE.assets.logos.thingsCheck, alt: "Things 4 logo" },
   },
 ];
