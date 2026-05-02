@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AgentationDevToolbar } from "@/components/agentation-dev-toolbar";
 import { SITE } from "@/lib/site";
 
 const inter = Inter({
@@ -41,6 +42,7 @@ export default function RootLayout({
           Skip to content
         </a>
         {children}
+        <AgentationDevToolbar />
       </body>
     </html>
   );
