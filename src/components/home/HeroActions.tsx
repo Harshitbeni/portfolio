@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { useIcon } from "@/lib/icon-context";
 import { useShape } from "@/lib/shape-context";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +24,6 @@ export function HeroActions() {
   const [menuOpen, setMenuOpen] = useState(false);
   const reduce = useReducedMotion();
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const PlayIcon = useIcon("play");
   const shape = useShape();
 
   useEffect(() => {
@@ -56,22 +54,21 @@ export function HeroActions() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="flex flex-wrap items-center gap-2"
+        className="flex flex-wrap items-center gap-3"
       >
         <Button
           type="button"
           variant="primary"
           size="md"
-          leadingIcon={PlayIcon}
           onClick={() => setOpen(true)}
-          className="font-medium [&_span]:font-medium [&_p]:font-medium [&_label]:font-medium [&_a]:font-medium shadow-[0px_1px_2px_0px_rgba(0,0,0,0.2),0px_1px_2px_-1px_rgba(0,0,0,0.12)]"
+          className="text-[13px] font-medium leading-none [&_span]:font-medium [&_p]:font-medium [&_label]:font-medium [&_a]:font-medium shadow-[0px_1px_2px_0px_rgba(0,0,0,0.2),0px_1px_2px_-1px_rgba(0,0,0,0.12)]"
         >
           Showreel
         </Button>
         <div className="relative" ref={menuRef}>
           <div
             className={cn(
-              "inline-flex h-8 items-stretch overflow-hidden border border-border bg-background shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.05)]",
+              "inline-flex h-8 items-stretch overflow-hidden border border-border bg-white shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.05)]",
               shape.mergedBg,
             )}
           >
@@ -79,19 +76,19 @@ export function HeroActions() {
               asChild
               variant="secondary"
               size="md"
-              className="h-8 rounded-none border-0 px-3.5 text-[14px] font-medium shadow-none"
+              className="relative h-8 rounded-none border-0 bg-white px-4 py-0 text-[13px] font-medium leading-none shadow-none hover:bg-white/95 active:bg-neutral-100 focus-visible:z-10 [&_span]:font-medium [&_span]:text-[13px] [&_a]:font-medium [&_a]:text-[13px]"
             >
               <Link href="/cv">Resume</Link>
             </Button>
             <Button
               type="button"
-              variant="ghost"
+              variant="secondary"
               size="icon-sm"
               onClick={() => setMenuOpen((o) => !o)}
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               aria-label="Resume options"
-              className="h-8 w-8 shrink-0 rounded-none border-0 border-l border-border shadow-none"
+              className="relative h-8 w-8 shrink-0 rounded-none border-0 border-l border-border bg-white shadow-none hover:bg-white/95 active:bg-neutral-100 focus-visible:z-10"
             >
               <IconChevronDownSmall
                 aria-hidden

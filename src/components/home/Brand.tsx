@@ -28,23 +28,23 @@ export function Brand() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-2 text-sm [&_span]:text-sm [&_p]:text-sm [&_label]:text-sm [&_a]:text-sm"
+      className="flex items-center gap-2 [&_span]:leading-4 [&_p]:leading-4 [&_p]:text-[12px] [&_label]:leading-4 [&_label]:text-[12px] [&_a]:leading-4 [&_h1]:leading-4 [&_h2]:leading-4 [&_h3]:leading-4 [&_h4]:leading-4 [&_h5]:leading-4 [&_h6]:leading-4"
     >
-      <span className="relative inline-block size-10 shrink-0 overflow-hidden rounded-full ring-1 ring-foreground/10">
+      <span className="relative inline-block size-8 shrink-0 overflow-hidden rounded-full ring-1 ring-foreground/10">
         <Image
           src={SITE.assets.avatarIllustrated}
           alt="Harshit Beniwal — illustrated avatar"
-          width={40}
-          height={40}
+          width={32}
+          height={32}
           className="h-full w-full object-cover"
           priority
         />
       </span>
-      <span className="flex flex-col leading-tight">
-        <span className="text-sm font-semibold tracking-tight text-foreground">
+      <span className="flex flex-col">
+        <span className="text-[12px] font-semibold leading-4 tracking-tight text-foreground">
           {SITE.name}
         </span>
-        <span className="text-sm text-muted-foreground">{location}</span>
+        <span className="text-[12px] leading-4 text-muted-foreground">{location}</span>
       </span>
     </Link>
   );

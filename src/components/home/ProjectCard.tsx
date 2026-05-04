@@ -9,8 +9,7 @@ import {
   type Transition,
 } from "framer-motion";
 import type { PortfolioItem } from "@/data/home-portfolio";
-import { useShape } from "@/lib/shape-context";
-import { cn } from "@/lib/utils";
+import { ProjectTag } from "@/components/home/ProjectTag";
 
 type Props = {
   item: PortfolioItem;
@@ -19,11 +18,14 @@ type Props = {
 
 const ease: Transition["ease"] = [0.22, 1, 0.36, 1];
 
+/** Mask for progressive blur: white = visible frosted band, fading toward top (see mask-image alpha). */
 const overlayProgressiveMask = {
   WebkitMaskImage:
-    "linear-gradient(to top, #fff 0%, #fff 10%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0.12) 68%, transparent 100%)",
+    "linear-gradient(to top, #fff 0%, #fff 14%, rgba(255,255,255,0.9) 32%, rgba(255,255,255,0.4) 58%, rgba(255,255,255,0.1) 82%, transparent 100%)",
   maskImage:
-    "linear-gradient(to top, #fff 0%, #fff 10%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0.12) 68%, transparent 100%)",
+    "linear-gradient(to top, #fff 0%, #fff 14%, rgba(255,255,255,0.9) 32%, rgba(255,255,255,0.4) 58%, rgba(255,255,255,0.1) 82%, transparent 100%)",
+  WebkitMaskSize: "100% 100%",
+  maskSize: "100% 100%",
 } as const;
 
 function useHasHoverMedia(): boolean {
@@ -39,27 +41,22 @@ function useHasHoverMedia(): boolean {
 }
 
 export function ProjectCard({ item, index }: Props) {
-  const shape = useShape();
   const reduce = useReducedMotion();
   const fineHover = useHasHoverMedia();
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
 
   const tagsVisible = !fineHover || hovered || focused;
-  const n = item.tags.length;
 
   const overlayTransition: Transition = reduce
     ? { duration: 0.15 }
     : { duration: 0.38, ease };
 
-  const tagTransition = (i: number): Transition =>
-    reduce
-      ? { duration: 0.12 }
-      : {
-          duration: 0.32,
-          ease,
-          delay: tagsVisible ? 0.06 + i * 0.055 : (n - 1 - i) * 0.04,
-        };
+  const tagMotion: Transition = reduce
+    ? { duration: 0.12 }
+    : { duration: 0.32, ease };
+
+  const tagOffset = { x: -12, y: 12 };
 
   return (
     <motion.article
@@ -74,20 +71,17 @@ export function ProjectCard({ item, index }: Props) {
     >
       <Link
         href={item.href}
-        className={cn(
-          "group block overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-border transition hover:shadow-md hover:ring-border/80",
-          shape.mergedBg,
-        )}
+        className="group block overflow-hidden transition"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
       >
-        <div className="relative w-full overflow-hidden bg-white">
-          <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+        <div className="relative w-full overflow-hidden">
+          <div className="relative aspect-[3/2] w-full overflow-hidden rounded-lg bg-muted">
             {item.media.kind === "video" ? (
               <video
-                className="absolute inset-0 h-full w-full min-h-full min-w-full object-cover object-center transition duration-500 will-change-transform group-hover:scale-[1.01]"
+                className="absolute inset-0 size-full min-h-0 min-w-0 object-cover object-center transition duration-500 will-change-transform group-hover:scale-[1.01]"
                 src={item.media.src}
                 muted
                 loop
@@ -102,51 +96,62 @@ export function ProjectCard({ item, index }: Props) {
                 alt=""
                 fill
                 sizes="(min-width: 880px) 832px, 100vw"
-                className="object-cover object-center transition duration-500 will-change-transform group-hover:scale-[1.01]"
+                className="absolute inset-0 size-full object-cover object-center transition duration-500 will-change-transform group-hover:scale-[1.01]"
               />
             )}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-[4] rounded-lg ring-1 ring-inset ring-black/15"
+            />
             <div
               className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-transparent via-transparent to-black/[0.04]"
               aria-hidden
             />
             <motion.div
               aria-hidden
-              className={`pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[58%] bg-gradient-to-t from-white/18 via-white/6 to-transparent ${
-                reduce ? "" : "backdrop-blur-lg backdrop-saturate-[1.12] sm:backdrop-blur-xl"
-              }`}
-              style={overlayProgressiveMask}
+              className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-[27%] bg-white/[0.01]"
+              style={
+                reduce
+                  ? overlayProgressiveMask
+                  : {
+                      ...overlayProgressiveMask,
+                      WebkitBackdropFilter: "blur(24px)",
+                      backdropFilter: "blur(24px)",
+                    }
+              }
               initial={false}
               animate={{ opacity: tagsVisible ? 1 : 0 }}
               transition={overlayTransition}
             />
             <div
-              className={`absolute left-3 top-3 z-[3] flex flex-wrap gap-1.5 ${tagsVisible ? "pointer-events-auto" : "pointer-events-none"}`}
+              className={`absolute bottom-3 left-3 z-[5] flex flex-wrap gap-1.5 ${tagsVisible ? "pointer-events-auto" : "pointer-events-none"}`}
             >
-              {item.tags.map((tag, i) => (
+              {item.tags.map((tag) => (
                 <motion.span
                   key={tag}
                   initial={false}
                   animate={{
                     opacity: tagsVisible ? 1 : 0,
-                    y: tagsVisible ? 0 : 10,
+                    x: tagsVisible ? 0 : tagOffset.x,
+                    y: tagsVisible ? 0 : tagOffset.y,
                     filter: reduce
                       ? "blur(0px)"
                       : tagsVisible
                         ? "blur(0px)"
                         : "blur(6px)",
                   }}
-                  transition={tagTransition(i)}
-                  className="inline-flex items-center rounded-sm border border-border bg-background/95 px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-sm"
+                  transition={tagMotion}
+                  className="inline-block"
                 >
-                  {tag}
+                  <ProjectTag>{tag}</ProjectTag>
                 </motion.span>
               ))}
             </div>
           </div>
-          <div className="space-y-1.5 px-4 py-4">
+          <div className="space-y-1.5 py-4">
             <h2 className="flex items-center gap-2 text-[14px] font-semibold leading-snug text-foreground">
               {item.titleLogo ? (
-                <span className="relative inline-block size-4 shrink-0 overflow-hidden rounded-[4px]">
+                <span className="relative inline-block size-4 shrink-0 overflow-hidden rounded-[4px] ring-1 ring-inset ring-[rgba(0,0,0,0.16)] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.2),0px_1px_2px_-1px_rgba(0,0,0,0.12)]">
                   <Image
                     src={item.titleLogo.src}
                     alt={item.titleLogo.alt}
