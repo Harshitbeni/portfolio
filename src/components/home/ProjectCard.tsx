@@ -9,6 +9,8 @@ import {
   type Transition,
 } from "framer-motion";
 import type { PortfolioItem } from "@/data/home-portfolio";
+import { useShape } from "@/lib/shape-context";
+import { cn } from "@/lib/utils";
 
 type Props = {
   item: PortfolioItem;
@@ -37,6 +39,7 @@ function useHasHoverMedia(): boolean {
 }
 
 export function ProjectCard({ item, index }: Props) {
+  const shape = useShape();
   const reduce = useReducedMotion();
   const fineHover = useHasHoverMedia();
   const [hovered, setHovered] = useState(false);
@@ -71,14 +74,17 @@ export function ProjectCard({ item, index }: Props) {
     >
       <Link
         href={item.href}
-        className="group block overflow-hidden rounded-[8px] shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.08] transition hover:shadow-md hover:ring-black/[0.14]"
+        className={cn(
+          "group block overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-border transition hover:shadow-md hover:ring-border/80",
+          shape.mergedBg,
+        )}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
       >
         <div className="relative w-full overflow-hidden bg-white">
-          <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100">
+          <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
             {item.media.kind === "video" ? (
               <video
                 className="absolute inset-0 h-full w-full min-h-full min-w-full object-cover object-center transition duration-500 will-change-transform group-hover:scale-[1.01]"
@@ -130,7 +136,7 @@ export function ProjectCard({ item, index }: Props) {
                         : "blur(6px)",
                   }}
                   transition={tagTransition(i)}
-                  className="inline-flex items-center rounded-[4px] border border-black/[0.08] bg-white/95 px-1.5 py-0.5 text-[11px] font-medium text-zinc-700 shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-sm"
+                  className="inline-flex items-center rounded-sm border border-border bg-background/95 px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground shadow-[0_1px_2px_rgba(0,0,0,0.08)] backdrop-blur-sm"
                 >
                   {tag}
                 </motion.span>
@@ -138,7 +144,7 @@ export function ProjectCard({ item, index }: Props) {
             </div>
           </div>
           <div className="space-y-1.5 px-4 py-4">
-            <h2 className="flex items-center gap-2 text-[14px] font-semibold leading-snug text-zinc-900">
+            <h2 className="flex items-center gap-2 text-[14px] font-semibold leading-snug text-foreground">
               {item.titleLogo ? (
                 <span className="relative inline-block size-4 shrink-0 overflow-hidden rounded-[4px]">
                   <Image
@@ -153,7 +159,7 @@ export function ProjectCard({ item, index }: Props) {
               ) : null}
               <span>{item.title}</span>
             </h2>
-            <p className="max-w-[36rem] text-balance text-[14px] leading-[20px] text-zinc-600">
+            <p className="max-w-[36rem] text-balance text-[14px] leading-[20px] text-muted-foreground">
               {item.description}
             </p>
           </div>

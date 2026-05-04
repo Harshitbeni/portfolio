@@ -18,7 +18,7 @@ function MusicNoteIcon() {
   return (
     <IconAudio
       size={17}
-      className="size-[17px] shrink-0 text-zinc-500"
+      className="size-[17px] shrink-0 text-muted-foreground"
       aria-hidden
     />
   );
@@ -27,7 +27,7 @@ function MusicNoteIcon() {
 /** Album-art disc — fixed 40×40 circle, soft lift + inset rim (Framer-style widget). */
 function DiscArtwork({ imageUrl }: { imageUrl: string | null }) {
   return (
-    <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full bg-zinc-200/80 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.75),0_2px_6px_rgba(0,0,0,0.08),0_8px_24px_-4px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]">
+    <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted/80 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.75),0_2px_6px_rgba(0,0,0,0.08),0_8px_24px_-4px_rgba(0,0,0,0.14)] ring-1 ring-border/60">
       {imageUrl ? (
         <Image
           src={imageUrl}
@@ -38,7 +38,7 @@ function DiscArtwork({ imageUrl }: { imageUrl: string | null }) {
           unoptimized
         />
       ) : (
-        <span className="flex h-full w-full items-center justify-center bg-zinc-100/90">
+        <span className="flex h-full w-full items-center justify-center bg-muted/90">
           <MusicNoteIcon />
         </span>
       )}
@@ -102,7 +102,7 @@ export function NowPlaying() {
           rel="noopener noreferrer"
           aria-label={ariaLabel}
           title={tooltip}
-          className="pointer-events-auto inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-full align-top outline-none transition-transform duration-200 ease-out hover:scale-[1.04] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+          className="pointer-events-auto inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-full align-top outline-none transition-transform duration-200 ease-out hover:scale-[1.04] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-foreground/25 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           {inner}
         </a>

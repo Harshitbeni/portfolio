@@ -26,8 +26,11 @@ export function Brand() {
   const location = `${geo.city}, ${geo.region}, ${geo.country}`;
 
   return (
-    <Link href="/" className="flex items-center gap-3">
-      <span className="relative inline-block size-10 shrink-0 overflow-hidden rounded-full ring-1 ring-zinc-900/10">
+    <Link
+      href="/"
+      className="flex items-center gap-2 text-sm [&_span]:text-sm [&_p]:text-sm [&_label]:text-sm [&_a]:text-sm"
+    >
+      <span className="relative inline-block size-10 shrink-0 overflow-hidden rounded-full ring-1 ring-foreground/10">
         <Image
           src={SITE.assets.avatarIllustrated}
           alt="Harshit Beniwal — illustrated avatar"
@@ -38,10 +41,10 @@ export function Brand() {
         />
       </span>
       <span className="flex flex-col leading-tight">
-        <span className="text-[14px] font-semibold tracking-tight text-zinc-900">
+        <span className="text-sm font-semibold tracking-tight text-foreground">
           {SITE.name}
         </span>
-        <span className="text-[13px] text-zinc-500">{location}</span>
+        <span className="text-sm text-muted-foreground">{location}</span>
       </span>
     </Link>
   );
