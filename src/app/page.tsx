@@ -11,10 +11,12 @@ export default function HomePage() {
     <>
       <SiteHeader />
       <main id="main">
-        <section className="mx-auto max-w-[832px] px-4 pb-10 pt-12 sm:px-6 sm:pb-14 sm:pt-16">
+        <section className="mx-auto max-w-[832px] px-4 pb-12 pt-10 sm:px-6 sm:pb-16 sm:pt-12">
           <div className="space-y-6">
-            <HeroHeadline />
-            <HeroBio />
+            <div className="space-y-3">
+              <HeroHeadline />
+              <HeroBio />
+            </div>
             <HeroActions />
           </div>
         </section>
@@ -27,7 +29,7 @@ export default function HomePage() {
           <h2 id="work-heading" className="sr-only">
             Selected work
           </h2>
-          <div className="mx-auto flex max-w-[832px] flex-col gap-12 px-4 pb-16 sm:px-6 sm:pb-24">
+          <div className="mx-auto flex max-w-[832px] flex-col gap-10 px-4 pb-12 sm:px-6 sm:pb-20">
             {portfolioItems.map((item, index) => (
               <ProjectCard key={item.href + item.title} item={item} index={index} />
             ))}

@@ -4,7 +4,7 @@ export const SITE = {
   name: "Harshit Beniwal",
   title: "@harshitbeni ⋅ Designer",
   description:
-    "Product designer currently based in San Francisco with a keen interest in technology, interaction and an expertise in end-to-end, 0→1 design.",
+    "Product designer currently based in San Francisco with a keen interest in technology, interaction and an expertise in end-to-end, 0→1 design.\nTool fanatic, software tinkerer, and a citizen of the Internet.",
   url: "https://harshitbeni.com",
   email: "hello@harshitbeni.com",
   notes: "https://notes.harshitbeni.com/",
@@ -55,4 +55,12 @@ export const SITE = {
   },
   /** Last.fm — set LASTFM_API_KEY and LASTFM_USER (defaults to harshitbeni). */
   lastfmUser: "harshitbeni",
+  /** Nomad List / nomads.com — public profile slug used for the brand location string. */
+  nomadsUser: "harshitbeni",
+  /**
+   * Footer portrait — hover / focus tooltip (from harshitbeni.com `extras/tooltip`,
+   * LGfwYuDCv default in published Framer bundle).
+   */
+  footerPortraitTooltip:
+    "That\u2019s me, probably\nin a zoom meeting",
 } as const;

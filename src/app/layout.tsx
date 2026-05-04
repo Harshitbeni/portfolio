@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AgentationDevToolbar } from "@/components/agentation-dev-toolbar";
+import { Dock } from "@/components/home/Dock";
+import { NowPlaying } from "@/components/home/NowPlaying";
 import { SITE } from "@/lib/site";
 
 const inter = Inter({
@@ -10,6 +12,7 @@ const inter = Inter({
   display: "swap",
 });
 
+/** Optical headline family — matches harshitbeni.com “Inter Display” feel for the hero only. */
 const interDisplay = Inter({
   variable: "--font-inter-display",
   subsets: ["latin"],
@@ -69,6 +72,8 @@ export default function RootLayout({
           Skip to content
         </a>
         {children}
+        <NowPlaying />
+        <Dock />
         <AgentationDevToolbar />
       </body>
     </html>

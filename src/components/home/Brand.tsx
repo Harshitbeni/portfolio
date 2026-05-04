@@ -12,7 +12,7 @@ export function Brand() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/geo")
+    fetch("/api/location")
       .then((r) => (r.ok ? r.json() : null))
       .then((data: Geo | null) => {
         if (!cancelled && data && data.city) setGeo(data);
@@ -26,22 +26,22 @@ export function Brand() {
   const location = `${geo.city}, ${geo.region}, ${geo.country}`;
 
   return (
-    <Link href="/" className="flex items-center gap-2.5">
-      <span className="relative inline-block size-8 overflow-hidden rounded-full ring-1 ring-zinc-900/10">
+    <Link href="/" className="flex items-center gap-3">
+      <span className="relative inline-block size-10 shrink-0 overflow-hidden rounded-full ring-1 ring-zinc-900/10">
         <Image
           src={SITE.assets.avatarIllustrated}
           alt="Harshit Beniwal — illustrated avatar"
-          width={32}
-          height={32}
+          width={40}
+          height={40}
           className="h-full w-full object-cover"
           priority
         />
       </span>
       <span className="flex flex-col leading-tight">
-        <span className="text-[13px] font-semibold tracking-tight text-zinc-900">
+        <span className="text-[14px] font-semibold tracking-tight text-zinc-900">
           {SITE.name}
         </span>
-        <span className="text-[12px] text-zinc-500">{location}</span>
+        <span className="text-[13px] text-zinc-500">{location}</span>
       </span>
     </Link>
   );
