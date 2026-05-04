@@ -75,9 +75,12 @@ function transitionShape(callback: () => void) {
 function ShapeProvider({
   children,
   defaultShape = "pill",
+  enableKeyboardShortcut = true,
 }: {
   children: ReactNode;
   defaultShape?: ShapeVariant;
+  /** Set false for nested providers (e.g. dropdown-only rounded) so `R` is not registered twice. */
+  enableKeyboardShortcut?: boolean;
 }) {
   const [shape, setShapeState] = useState<ShapeVariant>(defaultShape);
 
@@ -86,6 +89,7 @@ function ShapeProvider({
   }, []);
 
   useEffect(() => {
+    if (!enableKeyboardShortcut) return;
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== "r" && e.key !== "R") return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -102,7 +106,7 @@ function ShapeProvider({
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, []);
+  }, [enableKeyboardShortcut]);
 
   return (
     <ShapeContext.Provider value={{ shape, setShape, classes: shapeMap[shape] }}>

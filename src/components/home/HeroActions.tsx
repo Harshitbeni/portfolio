@@ -4,9 +4,12 @@ import { IconChevronDownSmall } from "@central-icons-react/round-outlined-radius
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { useShape } from "@/lib/shape-context";
+import { Dropdown } from "@/components/ui/dropdown";
+import { MenuItem } from "@/components/ui/menu-item";
+import { ShapeProvider, useShape } from "@/lib/shape-context";
 import { cn } from "@/lib/utils";
 
 /** Default matches https://vimeo.com/848991756 — override with NEXT_PUBLIC_VIMEO_SHOWREEL_ID if needed. */
@@ -20,33 +23,34 @@ const RESUME_PDF =
   "/Harshit-Beniwal-Resume.pdf";
 
 export function HeroActions() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [resumeMenuOpen, setResumeMenuOpen] = useState(false);
   const reduce = useReducedMotion();
-  const menuRef = useRef<HTMLDivElement | null>(null);
   const shape = useShape();
+  const resumeWrapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!menuOpen) return;
-    const onClick = (e: MouseEvent) => {
+    if (!resumeMenuOpen) return;
+    const onPointerDown = (e: PointerEvent) => {
       if (
-        menuRef.current &&
+        resumeWrapRef.current &&
         e.target instanceof Node &&
-        !menuRef.current.contains(e.target)
+        !resumeWrapRef.current.contains(e.target)
       ) {
-        setMenuOpen(false);
+        setResumeMenuOpen(false);
       }
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") setResumeMenuOpen(false);
     };
-    document.addEventListener("mousedown", onClick);
+    document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKey);
     return () => {
-      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [menuOpen]);
+  }, [resumeMenuOpen]);
 
   return (
     <>
@@ -65,83 +69,65 @@ export function HeroActions() {
         >
           Showreel
         </Button>
-        <div className="relative" ref={menuRef}>
+        <div className="relative" ref={resumeWrapRef}>
           <div
             className={cn(
-              "inline-flex h-8 items-stretch overflow-hidden border border-border bg-white shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.05)]",
-              shape.mergedBg,
+              "inline-flex h-8 items-stretch overflow-hidden rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)] ring-0 outline-none",
             )}
           >
-            <Button
-              asChild
-              variant="secondary"
-              size="md"
-              className="relative h-8 rounded-none border-0 bg-white px-4 py-0 text-[13px] font-medium leading-none shadow-none hover:bg-white/95 active:bg-neutral-100 focus-visible:z-10 [&_span]:font-medium [&_span]:text-[13px] [&_a]:font-medium [&_a]:text-[13px]"
+            <Link
+              href="/cv"
+              onClick={() => setResumeMenuOpen(false)}
+              className="inline-flex h-full items-center pl-[16px] pr-[10px] text-[14px] font-medium leading-none text-[#4A5568] transition-colors hover:bg-neutral-50 active:bg-neutral-100/90 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#6B97FF] focus-visible:ring-inset"
             >
-              <Link href="/cv">Resume</Link>
-            </Button>
-            <Button
+              Resume
+            </Link>
+            <button
               type="button"
-              variant="secondary"
-              size="icon-sm"
-              onClick={() => setMenuOpen((o) => !o)}
+              onClick={() => setResumeMenuOpen((o) => !o)}
               aria-haspopup="menu"
-              aria-expanded={menuOpen}
+              aria-expanded={resumeMenuOpen}
               aria-label="Resume options"
-              className="relative h-8 w-8 shrink-0 rounded-none border-0 border-l border-border bg-white shadow-none hover:bg-white/95 active:bg-neutral-100 focus-visible:z-10"
+              className="inline-flex h-full w-10 shrink-0 items-center justify-center border-l border-border bg-white text-[#4A5568] transition-colors hover:bg-neutral-50 active:bg-neutral-100/90 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#6B97FF] focus-visible:ring-inset"
             >
               <IconChevronDownSmall
                 aria-hidden
-                size={12}
+                size={14}
+                strokeWidth={1.5}
                 className="shrink-0 text-current"
               />
-            </Button>
+            </button>
           </div>
-          <AnimatePresence>
-            {menuOpen && (
-              <motion.div
-                role="menu"
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: reduce ? 0 : 0.15 }}
-                className={cn(
-                  "absolute right-0 top-[calc(100%+6px)] z-30 w-44 overflow-hidden border border-border bg-background p-1 shadow-lg",
-                  shape.bg,
-                )}
-              >
-                <Button
-                  asChild
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto w-full justify-start rounded-md px-2.5 py-1.5 text-[14px] font-normal shadow-none"
-                >
-                  <Link
-                    href="/cv"
-                    role="menuitem"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    View resume
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="ghost"
-                  size="sm"
-                  className="h-auto w-full justify-start rounded-md px-2.5 py-1.5 text-[14px] font-normal shadow-none"
-                >
-                  <a
-                    href={RESUME_PDF}
-                    role="menuitem"
-                    download
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Download PDF
-                  </a>
-                </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {resumeMenuOpen ? (
+            <div className="absolute right-0 top-[calc(100%+6px)] z-50 min-w-[11rem]">
+              <ShapeProvider defaultShape="rounded" enableKeyboardShortcut={false}>
+                <Dropdown className="w-full min-w-[11rem] max-w-[min(100vw-2rem,18rem)] overflow-hidden shadow-lg">
+                  <MenuItem
+                    label="View Resume"
+                    index={0}
+                    onSelect={() => {
+                      setResumeMenuOpen(false);
+                      router.push("/cv");
+                    }}
+                  />
+                  <MenuItem
+                    label="Download PDF"
+                    index={1}
+                    onSelect={() => {
+                      setResumeMenuOpen(false);
+                      const a = document.createElement("a");
+                      a.href = RESUME_PDF;
+                      a.download = "";
+                      a.rel = "noopener noreferrer";
+                      document.body.appendChild(a);
+                      a.click();
+                      a.remove();
+                    }}
+                  />
+                </Dropdown>
+              </ShapeProvider>
+            </div>
+          ) : null}
         </div>
       </motion.div>
 
