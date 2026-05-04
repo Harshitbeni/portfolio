@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const ROTATING_PHRASES = ["Software", "Stories"] as const;
 
@@ -51,19 +51,19 @@ const wordToken = {
 export function HeroHeadline() {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const hasRotatedOnce = useRef(false);
+  const [seenNonZeroIndex, setSeenNonZeroIndex] = useState(false);
 
   useEffect(() => {
     if (reduce) return;
     const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % ROTATING_PHRASES.length);
+      setIndex((i) => {
+        const next = (i + 1) % ROTATING_PHRASES.length;
+        if (next !== 0) setSeenNonZeroIndex(true);
+        return next;
+      });
     }, 3200);
     return () => window.clearInterval(id);
   }, [reduce]);
-
-  useEffect(() => {
-    if (index > 0) hasRotatedOnce.current = true;
-  }, [index]);
 
   const phrase = ROTATING_PHRASES[index];
   const letters = useMemo(() => Array.from(phrase), [phrase]);
@@ -81,13 +81,13 @@ export function HeroHeadline() {
           transition: {
             staggerChildren: letterStagger,
             delayChildren:
-              index === 0 && !hasRotatedOnce.current
+              index === 0 && !seenNonZeroIndex
                 ? phraseDelayAfterPrefix
                 : 0.02,
           },
         },
       }) as const,
-    [index],
+    [index, seenNonZeroIndex],
   );
 
   const slotCh = useMemo(
@@ -100,7 +100,7 @@ export function HeroHeadline() {
       initial={reduce ? false : { opacity: 0, y: 8 }}
       animate={reduce ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease }}
-      className="font-[family-name:var(--font-display)] text-[18px] font-medium leading-[1.28] tracking-[-0.02em] text-zinc-900 [text-shadow:0_1px_0_rgba(255,255,255,0.5),0_1px_2px_rgba(17,24,39,0.1)]"
+      className="font-[family-name:var(--font-display)] text-[18px] font-medium leading-[1.28] tracking-[-0.02em] text-foreground [text-shadow:0_1px_0_rgba(255,255,255,0.5),0_1px_2px_rgba(0,0,0,0.08)]"
     >
       <span className="inline-flex flex-wrap items-baseline gap-x-[0.28em]">
         {reduce ? (

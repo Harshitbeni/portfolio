@@ -16,7 +16,7 @@ type ChipProps = {
 
 function CompanyChip({ href, label, logo, external = true }: ChipProps) {
   const className =
-    "inline-flex items-center gap-1.5 rounded-[4px] bg-transparent p-0 align-middle text-[16px] font-normal text-zinc-900 transition-opacity hover:opacity-80";
+    "inline-flex items-center gap-1.5 rounded-[4px] border-0 border-none border-transparent bg-transparent p-0 align-middle text-[16px] font-medium text-foreground transition-opacity hover:opacity-80 [&_span]:font-medium [&_p]:font-medium [&_label]:font-medium [&_a]:font-medium";
   const inner = (
     <>
       <span className="relative inline-block size-4 overflow-hidden rounded-sm">
@@ -53,7 +53,7 @@ export function HeroBio() {
 
   return (
     <motion.p
-      className="max-w-[36rem] text-[16px] leading-6 text-zinc-600"
+      className="w-[506px] max-w-full text-[16px] leading-[1.25] text-muted-foreground [&_span]:leading-[1.25] [&_p]:leading-[1.25] [&_label]:leading-[1.25] [&_a]:leading-[1.25]"
       initial={
         reduce ? false : { opacity: 0, y: 14, filter: "blur(8px)" }
       }

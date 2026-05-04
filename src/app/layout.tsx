@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { InterfaceKit } from "interface-kit/react";
 import "./globals.css";
 import { AgentationDevToolbar } from "@/components/agentation-dev-toolbar";
 import { Dock } from "@/components/home/Dock";
 import { NowPlaying } from "@/components/home/NowPlaying";
+import { IconProvider } from "@/lib/icon-context";
+import { ShapeProvider } from "@/lib/shape-context";
 import { SITE } from "@/lib/site";
 
 const inter = Inter({
@@ -67,13 +70,16 @@ export default function RootLayout({
       <body className="min-h-full bg-[var(--background)] font-sans text-[var(--foreground)]">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-zinc-900 focus:px-3 focus:py-2 focus:text-sm focus:text-white"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background"
         >
           Skip to content
         </a>
-        {children}
-        <NowPlaying />
-        <Dock />
+        <ShapeProvider>
+          <IconProvider>{children}</IconProvider>
+          <NowPlaying />
+          <Dock />
+        </ShapeProvider>
+        {process.env.NODE_ENV === "development" ? <InterfaceKit /> : null}
         <AgentationDevToolbar />
       </body>
     </html>

@@ -11,7 +11,7 @@ export function SiteHeader() {
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className="bg-transparent"
     >
-      <div className="mx-auto flex max-w-[832px] items-center px-4 pt-6 sm:px-6 sm:pt-8">
+      <div className="mx-auto flex max-w-[832px] items-center pt-[16px] pl-[16px] pr-[16px]">
         <Brand />
       </div>
     </motion.header>

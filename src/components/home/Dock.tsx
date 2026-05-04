@@ -8,6 +8,8 @@ import { IconHome } from "@central-icons-react/round-outlined-radius-2-stroke-1.
 import { IconPencil } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPencil";
 import { IconSparklesTwo } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconSparklesTwo";
 import { SITE } from "@/lib/site";
+import { useShapeContext } from "@/lib/shape-context";
+import { cn } from "@/lib/utils";
 
 type DockItem = {
   href: string;
@@ -48,6 +50,13 @@ const items: DockItem[] = [
 ];
 
 export function Dock() {
+  const { shape, classes } = useShapeContext();
+
+  const shellRadius =
+    shape === "pill"
+      ? "rounded-t-[20px] sm:rounded-full"
+      : "rounded-t-xl sm:rounded-xl";
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: 16 }}
@@ -56,12 +65,17 @@ export function Dock() {
       aria-label="Primary"
       className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center pb-[max(env(safe-area-inset-bottom),0.5rem)]"
     >
-      <ul className="pointer-events-auto flex items-end gap-1 rounded-t-[20px] bg-[color-mix(in_oklab,var(--background)_88%,transparent)] px-2 pb-2 pt-2 backdrop-blur-md sm:gap-2 sm:rounded-full sm:px-3 sm:pb-2.5 sm:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.18),0_2px_4px_rgba(0,0,0,0.04)] sm:ring-1 sm:ring-black/[0.06]">
+      <ul
+        className={cn(
+          "pointer-events-auto flex items-end gap-1 bg-[color-mix(in_oklab,var(--background)_88%,transparent)] px-2 pb-2 pt-2 backdrop-blur-md sm:gap-2 sm:px-3 sm:pb-2.5 sm:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.18),0_2px_4px_rgba(0,0,0,0.04)] sm:ring-1 sm:ring-border/60",
+          shellRadius,
+        )}
+      >
         {items.map((item) => {
           const inner = (
-            <span className="flex w-[64px] flex-col items-center gap-1 rounded-2xl px-2 py-1.5 text-zinc-700 transition-colors hover:text-zinc-900 sm:w-[68px]">
-              <span className="text-zinc-700">{item.icon}</span>
-              <span className="text-[11px] font-medium leading-none tracking-tight text-zinc-700">
+            <span className="flex w-[64px] flex-col items-center gap-1 px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground sm:w-[68px]">
+              <span className="text-muted-foreground">{item.icon}</span>
+              <span className="text-[11px] font-medium leading-none tracking-tight text-muted-foreground">
                 {item.label}
               </span>
             </span>
@@ -73,14 +87,20 @@ export function Dock() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30"
+                  className={cn(
+                    "block outline-none focus-visible:ring-2 focus-visible:ring-foreground/30",
+                    classes.item,
+                  )}
                 >
                   {inner}
                 </a>
               ) : (
                 <Link
                   href={item.href}
-                  className="block rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30"
+                  className={cn(
+                    "block outline-none focus-visible:ring-2 focus-visible:ring-foreground/30",
+                    classes.item,
+                  )}
                 >
                   {inner}
                 </Link>
