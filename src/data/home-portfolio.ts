@@ -1,7 +1,7 @@
 import { SITE } from "@/lib/site";
 
 export type PortfolioMedia =
-  | { kind: "video"; src: string }
+  | { kind: "video"; src: string; poster?: string }
   | { kind: "image"; src: string; width: number; height: number };
 
 export type PortfolioItem = {

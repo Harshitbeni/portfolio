@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import { SITE } from "@/lib/site";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 type ChipProps = {
   href: string;
@@ -11,7 +16,7 @@ type ChipProps = {
 
 function CompanyChip({ href, label, logo, external = true }: ChipProps) {
   const className =
-    "inline-flex items-center gap-1.5 rounded-[4px] border border-black/[0.16] bg-white px-1.5 py-0.5 align-middle text-[15px] font-normal text-zinc-900 shadow-[0_1px_2px_0_rgba(0,0,0,0.2),0_1px_2px_-1px_rgba(0,0,0,0.12)] transition hover:bg-zinc-50";
+    "inline-flex items-center gap-1.5 rounded-[4px] bg-transparent p-0 align-middle text-[16px] font-normal text-zinc-900 transition-opacity hover:opacity-80";
   const inner = (
     <>
       <span className="relative inline-block size-4 overflow-hidden rounded-sm">
@@ -44,8 +49,19 @@ function CompanyChip({ href, label, logo, external = true }: ChipProps) {
 }
 
 export function HeroBio() {
+  const reduce = useReducedMotion();
+
   return (
-    <p className="max-w-[34rem] text-[15px] leading-[24px] text-zinc-600">
+    <motion.p
+      className="max-w-[36rem] text-[16px] leading-6 text-zinc-600"
+      initial={
+        reduce ? false : { opacity: 0, y: 14, filter: "blur(8px)" }
+      }
+      animate={
+        reduce ? undefined : { opacity: 1, y: 0, filter: "blur(0px)" }
+      }
+      transition={{ duration: 0.58, delay: 0.14, ease }}
+    >
       Studying Interaction Design at{" "}
       <CompanyChip href={SITE.cca} label="CCA" logo={SITE.assets.logos.cca} />{" "}
       in San Francisco. Previously I have worked with{" "}
@@ -70,6 +86,6 @@ export function HeroBio() {
         logo={SITE.assets.logos.thence}
       />{" "}
       shipping products from 0→1.
-    </p>
+    </motion.p>
   );
 }

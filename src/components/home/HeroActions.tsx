@@ -1,5 +1,6 @@
 "use client";
 
+import { IconChevronDownSmall } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconChevronDownSmall";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -53,15 +54,15 @@ export function HeroActions() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex h-9 items-center rounded-full bg-zinc-900 px-4 text-[13px] font-medium text-white shadow-[0_1px_2px_0_rgba(0,0,0,0.18)] ring-1 ring-zinc-900/10 transition hover:bg-zinc-800"
+          className="inline-flex h-8 items-center rounded-full bg-zinc-900 px-4 text-[14px] font-medium text-white shadow-[0px_1px_2px_0px_rgba(0,0,0,0.2),0px_1px_2px_-1px_rgba(0,0,0,0.12)] transition hover:bg-zinc-800"
         >
           Showreel
         </button>
         <div className="relative" ref={menuRef}>
-          <div className="inline-flex h-9 items-stretch overflow-hidden rounded-full border border-black/[0.08] bg-white shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]">
+          <div className="inline-flex h-8 items-stretch overflow-hidden rounded-full bg-white shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.05)]">
             <Link
               href="/cv"
-              className="inline-flex items-center px-3.5 text-[13px] font-medium text-zinc-900 transition hover:bg-zinc-50"
+              className="inline-flex items-center px-3.5 text-[14px] font-medium text-zinc-900 transition hover:bg-zinc-50"
             >
               Resume
             </Link>
@@ -71,18 +72,13 @@ export function HeroActions() {
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               aria-label="Resume options"
-              className="inline-flex items-center border-l border-black/[0.06] px-2 text-zinc-500 transition hover:bg-zinc-50 hover:text-zinc-900"
+              className="inline-flex items-center border-l border-black/[0.10] px-2 text-zinc-500 transition hover:bg-zinc-50 hover:text-zinc-900"
             >
-              <svg
+              <IconChevronDownSmall
                 aria-hidden
-                viewBox="0 0 12 12"
-                className="size-3 fill-none stroke-current"
-                strokeWidth={1.5}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="m3 4.5 3 3 3-3" />
-              </svg>
+                size={12}
+                className="shrink-0 text-current"
+              />
             </button>
           </div>
           <AnimatePresence>
@@ -98,7 +94,7 @@ export function HeroActions() {
                 <Link
                   href="/cv"
                   role="menuitem"
-                  className="block rounded-md px-2.5 py-1.5 text-[13px] text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900"
+                  className="block rounded-md px-2.5 py-1.5 text-[14px] text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900"
                   onClick={() => setMenuOpen(false)}
                 >
                   View resume
@@ -106,7 +102,7 @@ export function HeroActions() {
                 <a
                   href={RESUME_PDF}
                   role="menuitem"
-                  className="block rounded-md px-2.5 py-1.5 text-[13px] text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900"
+                  className="block rounded-md px-2.5 py-1.5 text-[14px] text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900"
                   download
                   onClick={() => setMenuOpen(false)}
                 >

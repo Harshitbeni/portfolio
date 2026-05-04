@@ -1,7 +1,9 @@
 "use client";
 
+import { IconAudio } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconAudio";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 type NowPlaying = {
   name: string;
@@ -12,17 +14,36 @@ type NowPlaying = {
   playedAt: number | null;
 };
 
-function formatRelative(ts: number | null, now: boolean): string {
-  if (now) return "now playing";
-  if (!ts) return "";
-  const diff = Math.max(0, Date.now() - ts);
-  const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 24) return `${hrs}h ago`;
-  const days = Math.floor(hrs / 24);
-  return `${days}d ago`;
+function MusicNoteIcon() {
+  return (
+    <IconAudio
+      size={17}
+      className="size-[17px] shrink-0 text-zinc-500"
+      aria-hidden
+    />
+  );
+}
+
+/** Album-art disc — fixed 40×40 circle, soft lift + inset rim (Framer-style widget). */
+function DiscArtwork({ imageUrl }: { imageUrl: string | null }) {
+  return (
+    <span className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full bg-zinc-200/80 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.75),0_2px_6px_rgba(0,0,0,0.08),0_8px_24px_-4px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]">
+      {imageUrl ? (
+        <Image
+          src={imageUrl}
+          alt=""
+          fill
+          sizes="40px"
+          className="object-cover"
+          unoptimized
+        />
+      ) : (
+        <span className="flex h-full w-full items-center justify-center bg-zinc-100/90">
+          <MusicNoteIcon />
+        </span>
+      )}
+    </span>
+  );
 }
 
 export function NowPlaying() {
@@ -45,47 +66,55 @@ export function NowPlaying() {
     };
   }, []);
 
-  if (!data) return null;
+  const hasData = !!data;
+  const ariaLabel = hasData
+    ? data!.nowPlaying
+      ? `Now playing: ${data!.name} by ${data!.artist}`
+      : `Last played: ${data!.name} by ${data!.artist}`
+    : "Now playing";
+  const tooltip = hasData ? `${data!.name} — ${data!.artist}` : "Now playing";
+  const imageUrl = hasData && data!.image ? data!.image : null;
+  const live = hasData && data!.nowPlaying;
 
-  const relative = formatRelative(data.playedAt, data.nowPlaying);
+  const inner = (
+    <span className="relative inline-block h-10 w-10 shrink-0 leading-none">
+      <DiscArtwork imageUrl={imageUrl} />
+      {live ? (
+        <span
+          className="pointer-events-none absolute -bottom-px -right-px z-[1] size-2 rounded-full bg-emerald-500 shadow-[0_0_0_2px_rgba(255,255,255,0.95)]"
+          aria-hidden
+        />
+      ) : null}
+    </span>
+  );
 
   return (
-    <a
-      href={data.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Last played: ${data.name} by ${data.artist}`}
-      className="hidden items-center gap-2 rounded-full px-2 py-1 transition hover:bg-zinc-100/70 sm:flex"
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="pointer-events-none fixed right-4 bottom-[calc(env(safe-area-inset-bottom,0px)+5.5rem)] z-50 leading-none sm:right-6 sm:bottom-6"
     >
-      <span className="relative size-9 shrink-0">
-        {data.image ? (
-          <Image
-            src={data.image}
-            alt={`${data.name} album art`}
-            width={36}
-            height={36}
-            className="size-9 rounded-full object-cover ring-1 ring-zinc-900/10"
-            unoptimized
-          />
-        ) : (
-          <span className="size-9 rounded-full bg-zinc-200" />
-        )}
+      {hasData ? (
+        <a
+          href={data!.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={ariaLabel}
+          title={tooltip}
+          className="pointer-events-auto inline-flex h-10 w-10 shrink-0 items-center justify-center overflow-visible rounded-full align-top outline-none transition-transform duration-200 ease-out hover:scale-[1.04] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+        >
+          {inner}
+        </a>
+      ) : (
         <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-black/5"
-        />
-      </span>
-      <span className="flex max-w-[180px] flex-col leading-tight">
-        <span className="truncate text-[11px] uppercase tracking-wide text-zinc-500">
-          {relative}
+          aria-label={ariaLabel}
+          title={tooltip}
+          className="pointer-events-auto inline-flex h-10 w-10 shrink-0 items-center justify-center align-top"
+        >
+          {inner}
         </span>
-        <span className="truncate text-[13px] font-medium text-zinc-900">
-          {data.name}
-        </span>
-        <span className="truncate text-[12px] text-zinc-500">
-          {data.artist}
-        </span>
-      </span>
-    </a>
+      )}
+    </motion.div>
   );
 }
