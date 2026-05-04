@@ -1,56 +1,38 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { IconEmojiSmile } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconEmojiSmile";
 import { IconFiles } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconFiles";
 import { IconHome } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconHome";
 import { IconPencil } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPencil";
 import { IconSparklesTwo } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconSparklesTwo";
-import { SITE } from "@/lib/site";
+import { PRIMARY_NAV_ITEMS, isNavActive } from "@/lib/primary-nav";
 import { useShapeContext } from "@/lib/shape-context";
 import { cn } from "@/lib/utils";
 
-type DockItem = {
-  href: string;
-  label: string;
-  icon: React.ReactNode;
-  external?: boolean;
-};
-
 const dockIconSize = 22;
 
-const items: DockItem[] = [
-  {
-    href: "/",
-    label: "home",
-    icon: <IconHome size={dockIconSize} className="shrink-0" />,
-  },
-  {
-    href: "/about",
-    label: "about",
-    icon: <IconEmojiSmile size={dockIconSize} className="shrink-0" />,
-  },
-  {
-    href: "/play",
-    label: "play",
-    icon: <IconSparklesTwo size={dockIconSize} className="shrink-0" />,
-  },
-  {
-    href: SITE.notes,
-    label: "notes",
-    icon: <IconPencil size={dockIconSize} className="shrink-0" />,
-    external: true,
-  },
-  {
-    href: "/cv",
-    label: "cv",
-    icon: <IconFiles size={dockIconSize} className="shrink-0" />,
-  },
+const DOCK_ICONS: ReactNode[] = [
+  <IconHome key="home" size={dockIconSize} className="shrink-0" />,
+  <IconEmojiSmile key="about" size={dockIconSize} className="shrink-0" />,
+  <IconSparklesTwo key="play" size={dockIconSize} className="shrink-0" />,
+  <IconPencil key="notes" size={dockIconSize} className="shrink-0" />,
+  <IconFiles key="cv" size={dockIconSize} className="shrink-0" />,
 ];
+
+type DockItem = (typeof PRIMARY_NAV_ITEMS)[number] & { icon: ReactNode };
+
+const items: DockItem[] = PRIMARY_NAV_ITEMS.map((item, i) => ({
+  ...item,
+  icon: DOCK_ICONS[i]!,
+}));
 
 export function Dock() {
   const { shape, classes } = useShapeContext();
+  const pathname = usePathname();
 
   const shellRadius =
     shape === "pill"
@@ -63,7 +45,7 @@ export function Dock() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       aria-label="Primary"
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center pb-[max(env(safe-area-inset-bottom),0.5rem)]"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center pb-[max(env(safe-area-inset-bottom),0.5rem)] md:hidden"
     >
       <ul
         className={cn(
@@ -72,10 +54,31 @@ export function Dock() {
         )}
       >
         {items.map((item) => {
+          const active = isNavActive(pathname, item.href, item.external);
           const inner = (
-            <span className="flex w-[64px] flex-col items-center gap-1 px-2 py-1.5 text-muted-foreground transition-colors hover:text-foreground sm:w-[68px]">
-              <span className="text-muted-foreground">{item.icon}</span>
-              <span className="text-[11px] font-medium leading-none tracking-tight text-muted-foreground">
+            <span
+              className={cn(
+                "flex w-[64px] flex-col items-center gap-1 px-2 py-1.5 transition-colors sm:w-[68px]",
+                active
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              <span
+                className={cn(
+                  active &&
+                    "[&_svg_path]:fill-foreground [&_svg_path]:stroke-none [&_svg_line]:stroke-none",
+                  active ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
+                {item.icon}
+              </span>
+              <span
+                className={cn(
+                  "text-[11px] font-medium leading-none tracking-tight",
+                  active ? "text-foreground" : "text-muted-foreground",
+                )}
+              >
                 {item.label}
               </span>
             </span>
@@ -97,6 +100,7 @@ export function Dock() {
               ) : (
                 <Link
                   href={item.href}
+                  aria-current={active ? "page" : undefined}
                   className={cn(
                     "block outline-none focus-visible:ring-2 focus-visible:ring-foreground/30",
                     classes.item,

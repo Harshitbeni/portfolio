@@ -3,15 +3,13 @@ import { HeroBio } from "@/components/home/HeroBio";
 import { HeroHeadline } from "@/components/home/HeroHeadline";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { SiteFooter } from "@/components/home/SiteFooter";
-import { SiteHeader } from "@/components/home/SiteHeader";
 import { portfolioItems } from "@/data/home-portfolio";
 
 export default function HomePage() {
   return (
     <>
-      <SiteHeader />
       <main id="main">
-        <section className="mx-auto max-w-[832px] pt-[24px] pr-[16px] pb-[48px] pl-[16px]">
+        <section className="mx-auto max-w-[832px] pt-[32px] pr-[16px] pb-[48px] pl-[16px]">
           <div className="space-y-6">
             <div className="space-y-3">
               <HeroHeadline />

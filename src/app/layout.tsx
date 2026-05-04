@@ -5,6 +5,7 @@ import "./globals.css";
 import { AgentationDevToolbar } from "@/components/agentation-dev-toolbar";
 import { Dock } from "@/components/home/Dock";
 import { NowPlaying } from "@/components/home/NowPlaying";
+import { SiteHeader } from "@/components/home/SiteHeader";
 import { IconProvider } from "@/lib/icon-context";
 import { ShapeProvider } from "@/lib/shape-context";
 import { SITE } from "@/lib/site";
@@ -75,7 +76,10 @@ export default function RootLayout({
           Skip to content
         </a>
         <ShapeProvider>
-          <IconProvider>{children}</IconProvider>
+          <SiteHeader />
+          <div className="md:pt-14">
+            <IconProvider>{children}</IconProvider>
+          </div>
           <NowPlaying />
           <Dock />
         </ShapeProvider>

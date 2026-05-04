@@ -16,7 +16,7 @@ type ChipProps = {
 
 function CompanyChip({ href, label, logo, external = true }: ChipProps) {
   const className =
-    "inline-flex items-center gap-1.5 rounded-[4px] border-0 border-none border-transparent bg-transparent p-0 align-middle text-[16px] font-medium text-foreground transition-opacity hover:opacity-80 [&_span]:font-medium [&_p]:font-medium [&_label]:font-medium [&_a]:font-medium";
+    "inline-flex items-center gap-1.5 rounded-[4px] border-0 border-none border-transparent bg-transparent p-0 align-middle text-[16px] font-normal text-foreground transition-opacity hover:opacity-80 [&_span]:font-normal [&_p]:font-normal [&_h1]:font-normal [&_h2]:font-normal [&_h3]:font-normal [&_h4]:font-normal [&_h5]:font-normal [&_h6]:font-normal [&_label]:font-normal [&_a]:font-normal";
   const inner = (
     <>
       <span className="relative inline-block size-4 overflow-hidden rounded-sm">

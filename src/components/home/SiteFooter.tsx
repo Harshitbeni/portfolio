@@ -66,8 +66,8 @@ function CopyEmailButton({ email }: { email: string }) {
 export function SiteFooter() {
   return (
     <footer className="mt-8 w-full">
-      <div className="w-full rounded-t-[32px] bg-[linear-gradient(180deg,var(--muted)_0%,transparent_100%)]">
-        <div className="mx-auto max-w-[832px] px-4 pb-32 pt-10 sm:px-6 sm:pt-14">
+      <div className="mx-auto w-full max-w-[832px] rounded-t-[32px] bg-[linear-gradient(180deg,var(--muted)_0%,transparent_100%)]">
+        <div className="px-4 pb-[0px] pt-10 sm:px-6 sm:pt-14">
           <div className={`space-y-3 ${body}`}>
             <p>
               harshitbeni.com is my internet home and a repository of my work and

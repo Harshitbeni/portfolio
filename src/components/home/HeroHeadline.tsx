@@ -18,6 +18,22 @@ const letterStagger = 0.032;
 const enterDuration = 0.44;
 const exitDuration = 0.34;
 
+/** Rotating word only — exit instantly; enter keeps motion. */
+const rotatingLetter = {
+  hidden: {
+    opacity: 0,
+    y: 8,
+    filter: "blur(8px)",
+    transition: { duration: 0 },
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: enterDuration, ease },
+  },
+} as const;
+
 /** Prefix line: stagger in once, no exit. */
 const prefixContainer = {
   hidden: {},
@@ -73,7 +89,7 @@ export function HeroHeadline() {
       ({
         hidden: {
           transition: {
-            staggerChildren: letterStagger * 0.88,
+            staggerChildren: 0,
             staggerDirection: -1,
           },
         },
@@ -100,9 +116,9 @@ export function HeroHeadline() {
       initial={reduce ? false : { opacity: 0, y: 8 }}
       animate={reduce ? undefined : { opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease }}
-      className="font-[family-name:var(--font-display)] text-[18px] font-medium leading-[1.28] tracking-[-0.02em] text-foreground [text-shadow:0_1px_0_rgba(255,255,255,0.5),0_1px_2px_rgba(0,0,0,0.08)]"
+      className="font-[family-name:var(--font-display)] text-[18px] font-medium leading-[1.28] tracking-[-0.02em] text-foreground [text-shadow:0_1px_0_rgba(255,255,255,0.65),0_1px_3px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.06)]"
     >
-      <span className="inline-flex flex-wrap items-baseline gap-x-[0.28em]">
+      <span className="inline-flex flex-wrap items-baseline gap-x-[0.28em] [text-shadow:inherit]">
         {reduce ? (
           <>
             <span className="inline-block whitespace-nowrap">
@@ -141,7 +157,7 @@ export function HeroHeadline() {
               aria-atomic="true"
               style={{ minWidth: `${slotCh}ch` }}
             >
-              <AnimatePresence mode="wait" initial={false}>
+              <AnimatePresence mode="wait">
                 <motion.span
                   key={phrase}
                   className="inline-flex whitespace-nowrap will-change-[opacity,transform,filter]"
@@ -153,7 +169,7 @@ export function HeroHeadline() {
                   {letters.map((ch, i) => (
                     <motion.span
                       key={`${phrase}-${i}`}
-                      variants={wordToken}
+                      variants={rotatingLetter}
                       className="inline-block will-change-[opacity,transform,filter]"
                     >
                       {ch === " " ? "\u00A0" : ch}
