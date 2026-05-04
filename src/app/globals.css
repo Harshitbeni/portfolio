@@ -11,6 +11,10 @@
   --border: #d1d5db;
   --border-soft: rgba(0, 0, 0, 0.1);
   --border-pill: rgba(0, 0, 0, 0.16);
+  /* Fluid Functionalism dropdown tokens */
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --selected: #e5e7eb;
 }
 
 @theme inline {
@@ -21,6 +25,9 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-selected: var(--selected);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-inter-display), var(--font-inter), ui-sans-serif,
     system-ui, sans-serif;

@@ -30,10 +30,10 @@ export function SiteHeader() {
             {PRIMARY_NAV_ITEMS.map((item) => {
               const active = isNavActive(pathname, item.href, item.external);
               const className = cn(
-                "rounded-sm px-[12px] py-[6px] text-sm font-normal transition-colors outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:bg-accent [&_span]:font-normal [&_p]:font-normal [&_h1]:font-normal [&_h2]:font-normal [&_h3]:font-normal [&_h4]:font-normal [&_h5]:font-normal [&_h6]:font-normal [&_a]:font-normal [&_label]:font-normal",
+                "rounded-full px-[12px] py-[6px] text-sm font-normal transition-colors outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background [&_span]:font-normal [&_p]:font-normal [&_h1]:font-normal [&_h2]:font-normal [&_h3]:font-normal [&_h4]:font-normal [&_h5]:font-normal [&_h6]:font-normal [&_a]:font-normal [&_label]:font-normal",
                 active
                   ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground",
+                  : "text-muted-foreground hover:bg-accent hover:text-foreground",
               );
               return (
                 <li key={item.label}>
