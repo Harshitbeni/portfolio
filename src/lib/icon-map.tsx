@@ -20,12 +20,12 @@ import { IconGlobe } from "@central-icons-react/round-outlined-radius-2-stroke-1
 import { IconHeart } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconHeart";
 import { IconImages1 } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconImages1";
 import { IconLibrary as IconLibraryBooks } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconLibrary";
-import { IconLightBulb } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconLightbulb";
+import { IconLightBulb } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconLightBulb";
 import { IconLoader } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconLoader";
 import { IconLock } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconLock";
 import { IconMoon } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconMoon";
 import { IconPageSearch } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPageSearch";
-import { IconPaintBrush } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPaintbrush";
+import { IconPaintBrush } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPaintBrush";
 import { IconPause } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPause";
 import { IconPlay } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPlay";
 import { IconPlusSmall } from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconPlusSmall";
